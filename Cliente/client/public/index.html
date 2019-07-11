@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es" data-ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="./css/materialize.min.css">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Cliente</title>
+</head>
+
+<body data-ng-controller="Controller">
+    <div class="sticky-top bg-dark text-light">
+        <h1 class="navbar-brand text-light">Sistemas Distribuidos</h1>
+        <div class="text-center">
+            <h1>VOTACIONES - DPoS</h1>
+            <br>
+        </div>
+    </div>
+    <!-- Container -->
+    <br>
+    <div class="container text-dark">
+        <div class="myData" data-ng-if="!button">
+            <h2>Mis datos</h2>
+            <div class="row">
+                <div class="col-3"><strong>Ip:</strong> {{myData.ip}} </div>
+                <div class="col-3"><strong>Nombre:</strong> {{myData.name}} </div>
+                <div class="col-3"><Strong>Votos recibidos:</Strong> {{myData.votes}} </div>
+                <div class="col-3"><Strong># participaciones:</Strong> {{myData.stake}} </div>
+            </div>
+            <div class="espacio">
+                <br>
+                <hr style="background-color: black">
+                <br>
+            </div>
+        </div>
+
+        <div data-ng-if="button">
+            <div class="text-center">
+                <h2>Primero envianos tu nombre.</h2>
+            </div>
+            <div class="row">
+                Nombre de usuario:
+                <div class="col-8">
+                    <input type="text" id="name" placeholder="Ingrese su nombre">
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary" ng-click="sendName()">Enviar Nombre</button>
+                </div>
+            </div>
+            <div class="espacio">
+                <br>
+                <hr style="background-color: black">
+                <br>
+            </div>
+        </div>
+
+
+        <div>
+            <table class="table table-bordered" style="text-align: center;" data-ng-if="events.length != 0">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Ip Opción</th>
+                        <th>Puerto</th>
+                        <th>Nombre</th>
+                        <th data-ng-if="startVote">Dar mi voto por:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="myEvent in events">
+                        <td>{{$index + 1}}</td>
+                        <td>{{myEvent.ip}}</td>
+                        <td>{{myEvent.port}}</td>
+                        <td>{{myEvent.name}}</td>
+                        <td data-ng-if="startVote"><button type="button" class="btn btn-success"
+                                ng-click="votar(myEvent)">Votar!</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div data-ng-if="events.length === 0" class="card-panel green lighten-1">
+            <span class="white-text">Por favor espere a que inicie la votacion :)
+            </span>
+        </div>
+
+        <div data-ng-if="myData.isDelegated">
+            <br>
+            <hr style="background-color: black">
+            <br>
+            <h2> Enviar Nuevo proceso:</h2>
+            <div class="row bg-dark text-light"
+                style="margin-top: 3%; padding-top: 3%; margin-left: 10%; margin-right: 10%">
+
+                <div class="col-8">
+                    <input type="text" id="task" placeholder="Ingrese el proceso">
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-warning" ng-click="sendProcess()">Enviar proceso</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr style="background-color: black">
+        <br>
+        <h2>Lista de procesos: </h2>
+        <div class="row">
+            <div>
+                <ul ng-repeat="task in process">
+                    <li>
+                        {{task}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light">
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a> Angel Nicolas Mendez - Fabian Nicolas Ramos</a>
+        </div>
+    </footer>
+
+
+    <script src="./js/lib/socket.io.js"></script>
+    <script src="./js/lib/angular.min.js"></script>
+    <script src="./js/controller.js"></script>
+</body>
+
+</html>
